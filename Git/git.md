@@ -23,3 +23,20 @@ git add .
 ```
 git rm --cached file
 ```
+
+## Committing
+
+```
+git add file_containing_changes_to_be_committed
+git commit file_containing_changes_to_be_committed -m "Commit message for this specific file"
+```
+
+To commit every changes
+```
+git commit -a -m "Commit message"
+```
+
+Pushing to Github
+```
+git push origin master
+```
