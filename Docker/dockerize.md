@@ -12,6 +12,10 @@ docker build -t dashboard_viewer:latest .
 ```
 
 * Any changes to the application? Rebuild the container image with the previous command.
+* List available images:
+```
+docker image ls
+```
 
 ## Start a container 
 
@@ -59,7 +63,7 @@ RUN venv/bin/pip install gunicorn pymysql
 ...
 ```
 
-Final command linking the `dashhboard_viewer` application to the previously defined MySAL 
+Final command linking the `dashhboard_viewer` application to the previously defined MySQL 
 
 ```
 docker run --name dasboard_viewer -d -p 8000:5000 --rm -e SECRET_KEY=my-secret-key \
@@ -69,4 +73,33 @@ docker run --name dasboard_viewer -d -p 8000:5000 --rm -e SECRET_KEY=my-secret-k
     -e DATABASE_URL=mysql+pymysql://dashboard_viewer:<database-password>@dbserver/dashboard_viewer \
     dashhboard_viewer:latest
  ```
+
+#  `Dockerhub`
+
+## Retrieve an image from [`Dockerhub`](https://hub.docker.com/)
+
+If running an image that is not stored locally, it is downloaded from Dockerhub
+```
+docker run python:3.7-alpine
+```
+
+To just pull the image without running it:
+```
+docker pull image_name
+```
+
+## Publish an image to Dockerhub
+
+Similarly to Github, login to [Dockerhub](https://hub.docker.com/) and *Create Repository* and choose a name.
+
+Log into Dockerhub using the CLI
+```
+docker login --username=yourhubusername --email=youremail@company.com
+```
+
+With your docker image ID obtained by running `docker images`, tag your container image:
+```
+docker tag container_image_ID yourhubusername/your_container_name:your_container_tag
+```
+
 
