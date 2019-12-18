@@ -102,4 +102,15 @@ With your docker image ID obtained by running `docker images`, tag your containe
 docker tag container_image_ID yourhubusername/your_container_name:your_container_tag
 ```
 
+Finally push the image to Dockerhub
+```
+docker push yourhubusername/your_container_name
+```
 
+
+# Random
+
+Explore instance image content in an interactive shell
+```
+docker run -it image_name sh
+```
