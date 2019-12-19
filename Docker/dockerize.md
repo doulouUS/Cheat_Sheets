@@ -6,7 +6,7 @@
 
 * You will need to create a `Dockerfile` containing the instructions executed by the `docker build` command. It is like an installer script. See `Dockerfile`.
 
-* Build the container image. `-t` sets the name and tag for the new container image. `.` indicates the base directory where the container is to be built, it is the same as where the `Dockerfile` is written.
+* Build the container image. `-t` sets the name and tag for the new container image. `.` indicates the base directory (context) where the container is to be built, it is the same as where the `Dockerfile` is written.
 ```
 docker build -t dashboard_viewer:latest .
 ```
@@ -16,6 +16,8 @@ docker build -t dashboard_viewer:latest .
 ```
 docker image ls
 ```
+
+Docker is a client-server application with Docker server called *daemon*
 
 ## Start a container 
 
@@ -112,5 +114,63 @@ docker push yourhubusername/your_container_name
 
 Explore instance image content in an interactive shell
 ```
-docker run -it image_name sh
+docker run -it image_name bash
+```
+
+Clean up unused or dangling images, containers, volumes and network
+```
+docker system prune  // add -a to remove stopped containers and unused images as well
+```
+
+# Removing
+
+Comprehensive guide [here](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
+
+## Removing containers
+
+Removing all exited containers
+```
+docker rm $(docker ps -a -f status=exited -q)
+```
+
+Remove all containers
+```
+docker rm $(docker ps -a -q)  // add -f to force delete (when dependencies and taggs)
+```
+
+## Removing images
+
+Remove image using its ID
+```
+docker image rmi ImageID
+```
+
+Remove all images
+```
+docker rmi $(docker images -a -q)
+```
+
+
+# `.dockerignore` syntax
+
+```
+pattern:
+{ term }
+term:
+'*' matches any sequence of non-Separator characters
+'?' matches any single non-Separator character
+'[' [ '^' ] { character-range } ']'
+character class (must be non-empty)
+c matches character c (c != '*', '?', '\\', '[')
+'\\' c matches character c
+ 
+character-range:
+c matches character c (c != '\\', '-', ']')
+'\\' c matches character c
+lo '-' hi matches character c for lo &lt;= c &lt;= hi
+ 
+additions:
+'**' matches any number of directories (including zero)
+'!' lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
+'#' lines starting with this character are ignored: use it for comments
 ```

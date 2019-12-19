@@ -1,3 +1,15 @@
+
+# Setting up AWS CLI
+
+AWS Access Key and Secret Access Key are my credentials. Associated with an IAM user or role
+
+It is recommended to create a new administrator IAM user instead of using the root one. Save the AWS Access and Secret Key.
+
+Next, configure a default user (you can create more users with their own name)
+```
+aws configure
+```
+
 # General Command structure
 
 ```
@@ -22,6 +34,68 @@ If multiple filters, encapsulate them between brackets. You can save this JSON p
 ```
 aws ec2 describe-instances --filters file://*path_to_json_file*
 ```
+
+Structure correctly your JSON by generating a JSON skeleton that you can then filled correctly:
+```
+$ aws2 ec2 describe-instances --generate-cli-skeleton  // output:
+{
+    "Filters": [
+        {
+            "Name": "",
+            "Values": [
+                ""
+            ]
+        }
+    ],
+    "InstanceIds": [
+        ""
+    ],
+    "DryRun": true,
+    "MaxResults": 0,
+    "NextToken": ""
+}
+```
+
+
+# Launching an EC2 instance
+
+* Find the AMI ID among the Amazon ones:
+```
+aws ec2 describe-images --owners self amazon`
+```
+
+* Find the settings of your existing instances to reuse them (ex. reuse the default subnet id etc.)
+```
+aws2 ec2 describe-instances  // --filters "Name=instance-type, Values=t2.micro,m1.medium" // for further filtering among your instances
+``` 
+
+# Launching a Docker app on an EC2 instance
+
+1. Launch an EC2 instance (see above) and wait for it to be available
+
+2. Install Docker [manually](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+
+Add docker to the current user (here `ubuntu`) to avoid using `sudo` all the time
+```
+sudo usermod -a -G docker ubuntu
+```
+
+3. Save the local image you need to a tar file 
+```
+docker save -o <path for generated tar file> <image name>
+```
+
+4. Move it to your new host
+```
+scp -i "key.perm" path/to/local/image user@remote_host:remote_dir
+```
+
+5. Load the image
+```
+docker load -i image.tar
+```
+
+Disadvantages: automation, scaling, not integrated in a robust infra (load balancer etc.) => use ECS
 
 
 # Launching a Docker app on ECS
