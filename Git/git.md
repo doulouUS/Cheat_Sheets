@@ -9,9 +9,13 @@
 git init
 ```
 
-2.bis. Define a `.gitignore` to exclude files from versioning
+2.bis. Define a `.gitignore` to exclude files from versioning, and add it to git
 ```
 file/pattern/to/exclude
+```
+
+```
+git add .gitignore
 ```
 
 3. Add all files
@@ -47,6 +51,11 @@ List all tracked files under `master` branch
 ```
 git ls-tree -r master --name-only
 ```
+List all tracked files that ever existed
+```
+git log --pretty=format: --name-only --diff-filter=A | sort - | sed '/^$/d'
+```
+Remove big files: BFG Repo Cleaner. To remove big files, passwords, credentials simpler than ` git filter-branch`
 
 ## Branches
 
@@ -67,9 +76,21 @@ OR
 git checkout -b my-new-branch
 ```
 
-Create remote branch (work on a local branch)
+Create branch on a github remote (work on a local branch)
 ```
 git push remote-name branch-name  // typically remote-name is origin, branch-name is the same name for the local and remote branch
+```
+
+## Remotes
+
+Add a new remote to git repo
+```
+git remote add remote-name remote-url
+```
+
+List remotes
+```
+git remote -v
 ```
 
 
