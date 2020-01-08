@@ -100,3 +100,12 @@ git remote -v
 2. Commit changes, create new branch
 3. Pull request on github's web interface
 
+## Git pull
+
+Equivalent of `git fetch` followed by `git merge` (or `git rebase` if using a rebase strategy).
+
+* `git fetch`: download the content of another branch
+* `git merge`: merge the content following a chosen strategy (ex: commit merge, rebase merge)
+
+
+
