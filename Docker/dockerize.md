@@ -174,3 +174,9 @@ additions:
 '!' lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
 '#' lines starting with this character are ignored: use it for comments
 ```
+
+
+# Automated image testing and build
+
+Set up `docker-compose.test.yml` file at the same location as the `Dockerfile`. 
+...
