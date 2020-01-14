@@ -2,7 +2,7 @@
 
 # Dockerize
 
-## Build a container image
+## Build an image
 
 * You will need to create a `Dockerfile` containing the instructions executed by the `docker build` command. It is like an installer script. See `Dockerfile`.
 

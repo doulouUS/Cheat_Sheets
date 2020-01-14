@@ -100,7 +100,7 @@ git remote -v
 2. Commit changes, create new branch
 3. Pull request on github's web interface
 
-## Git pull
+## Git pull (update local repo from remote)
 
 Equivalent of `git fetch` followed by `git merge` (or `git rebase` if using a rebase strategy).
 
