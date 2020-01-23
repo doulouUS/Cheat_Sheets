@@ -94,10 +94,20 @@ git remote -v
 ```
 
 
-## Pull request
+## Participating to an open source project - Pull request
+
+ex. of particular way to do it [PySyft](https://github.com/OpenMined/PySyft/blob/master/CONTRIBUTING.md#issue-allocation)
 
 1. Fork
-2. Commit changes, create new branch
+2. Clone
+3. Create new branch and check it out
+3. bis. Get up to date
+```
+git fetch upstream
+git pull branch-name
+```
+
+4. Make changes
 3. Pull request on github's web interface
 
 ## Git pull (update local repo from remote)
