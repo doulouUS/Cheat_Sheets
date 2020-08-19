@@ -1,39 +1,46 @@
 # Set up
 
-
-# Tensorflow 
+# Tensorflow
 
 ## Script mode
 
 Use Tensorflow eager mode: shift from the previous graph execution mode previously used. Natural direction of Tensorflow (adopted in v2).
 
 Advantages:
+
 * More intuitive
 * Easier to debug
 * Contrary to graph mode which keeps objects as long as `tf.Session()` is live, objects' lifetime is determined by their respective Python objects
 * `tf.keras` code can be used as such
 
 Workflow:
+
 1. Script in a `__main__` guard, with all input arguments as command line inputs (typically data paths and model hyperparameters)
-	- parse command line arguments
-	- load data
-	- build model
-	- train 
-	- save model to S3  (not needed as performed automatically in step 2 ?)
-
-	This script will be called in a container by Amazon SageMaker in the next step, and is teared down after execution, hence the saving step
-
-	ex: call this script `train.py`
+   
+   - parse command line arguments
+   
+   - load data
+   
+   - build model
+   
+   - train 
+   
+   - save model to S3  (not needed as performed automatically in step 2 ?)
+     
+     This script will be called in a container by Amazon SageMaker in the next step, and is teared down after execution, hence the saving step
+     
+     ex: call this script `train.py`
 
 2. Launch training SageMaker's Tensorflow wrapper
-```
-import sagemaker
-from sagemaker.tensorflow import TensorFlow
+   
+   ```
+   import sagemaker
+   from sagemaker.tensorflow import TensorFlow
+   ```
 
 model_dir = '/opt/ml/model'
 train_instance_type = 'local'  # or 'ml.c4.xlarge', see next parts
 hyperparameters = {'epochs': 10, 'batch_size': 128}
-
 
 inputs = {'train': f'file://{train_dir}',
           'test': f'file://{test_dir}'}
@@ -52,17 +59,18 @@ estimator = TensorFlow(entry_point='train.py',
 estimator.fit(inputs)
 
 results = predictor.predict(x_test[:10])['predictions'] 
+
 ```
 
 The model is saved during training (to be checked).
 
 3. Use the saved model anywhere, for instance:
-	- using the Amazon SageMaker hosted endpoints functionality (save using TensorFlow SavedModel format in this case)
-		```
-		predictor = estimator.deploy(initial_instance_count=1,instance_type='ml.m4.xlarge')
-		```
-	- other way?
-	- ...
+    - using the Amazon SageMaker hosted endpoints functionality (save using TensorFlow SavedModel format in this case)
+        ```
+        predictor = estimator.deploy(initial_instance_count=1,instance_type='ml.m4.xlarge')
+        ```
+    - other way?
+    - ...
 
 ## Amazon SageMaker local mode training
 
@@ -77,6 +85,8 @@ ex: `train_instance_type='local'`
 Used to perform the full training where the data is contained in S3. Can use significantly bigger resources with `train_instance_type` param.
 
 ex: `train_instance_type='ml.c4.xlarge'`
+```
 
+#### Outputs
 
-
+- source.tar.gz: python script used in the Tensorflow estimator
